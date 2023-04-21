@@ -7,8 +7,10 @@ Rails.application.routes.draw do
       resources :orders, only: [:index, :show, :create, :update, :destroy]
       resources :users, only: [:index, :show, :create, :update, :destroy]
       resources :transactions, only: [:index, :show, :create, :update, :destroy]
-      post 'login', to: 'session#create'
-      delete 'logout', to: 'session#destroy'
+      post 'signup', to: 'users#create'
+      get 'login', to: 'sessions#new'
+      post 'login', to: 'sessions#create'
+      delete 'logout', to: 'sessions#destroy'
     end
   end
 end
