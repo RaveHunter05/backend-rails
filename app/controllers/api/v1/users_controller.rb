@@ -1,6 +1,15 @@
 class Api::V1::UsersController < ApplicationController
+
+  skip_before_action :authenticate_user, only: [:create]
+  
+  before_action :find_user, only: [:show]
+
   def new
     @user = User.new
+  end
+
+  def show
+    render json: @user, status: 200
   end
 
   def index
@@ -20,5 +29,9 @@ class Api::V1::UsersController < ApplicationController
   private
   def create_user_params
     params.require(:user).permit(:name, :email, :password_digest)
+  end
+
+  def find_user
+    @user = User.find(params[:id])
   end
 end
