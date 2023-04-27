@@ -1,5 +1,5 @@
 class Api::V1::TransactionsController < ApplicationController
-  before_action :authenticate_user # Add this line to authenticate the user before accessing any action
+  before_action :require_login
 
   def index
     @transactions = Transaction.all
@@ -47,9 +47,9 @@ class Api::V1::TransactionsController < ApplicationController
     params.require(:transaction).permit(:product_id, :quantity, :total_amount)
   end
 
-  # Example authentication method, you can customize as per your application's authentication logic
-  def authenticate_user
-    # Add your authentication logic here
-    # Redirect or render error response if user is not authenticated
+  def require_login
+    unless @current_user
+      render json: { status: 'error', message: 'You must be logged in to access this resource.' }, status: :unauthorized
+    end
   end
 end
