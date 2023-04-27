@@ -42,7 +42,7 @@ class Api::V1::SuppliersController < ApplicationController
   end
 
   def require_login
-    unless session[:user_id]
+    unless @current_user
       render json: { status: 'error', message: 'You must be logged in to access this resource.' }, status: :unauthorized
     end
   end
